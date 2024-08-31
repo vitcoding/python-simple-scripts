@@ -1,7 +1,23 @@
-def function_time():
-    pass
+import functools, time
 
 
+# decorator
+def function_time(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        end = time.perf_counter()
+        execution_time = end - start
+        
+        print(f"\nExecution time of '{func.__name__}': {round(execution_time, 5)} s")
+        # print(f"Start time:         {round(start, 5)} s")
+        # print(f"End time:           {round(end, 5)} s")
+        return result
+
+    return wrapper
+
+@function_time
 def main():
     pass
 
