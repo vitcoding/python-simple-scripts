@@ -5,21 +5,30 @@ import functools, time
 def function_time(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        start_time = time.time()
         start = time.perf_counter()
         result = func(*args, **kwargs)
         end = time.perf_counter()
+        end_time = time.time()
         execution_time = end - start
-        
-        print(f"\nExecution time of '{func.__name__}': {round(execution_time, 5)} s")
-        # print(f"Start time:         {round(start, 5)} s")
-        # print(f"End time:           {round(end, 5)} s")
+
+        print(f"\nExecution time of '{func.__name__}()': {round(execution_time, 5)} s")
+        print(f"{" " * 4}Start time:   {time.ctime(start_time)}")
+        print(f"{" " * 4}End time:     {time.ctime(end_time)}")
+
         return result
 
     return wrapper
 
-@function_time
+
 def main():
-    pass
+
+    # function time calculation example
+    @function_time
+    def example_function_time():
+        time.sleep(1.5)
+
+    example_function_time()
 
 
 if __name__ == "__main__":
